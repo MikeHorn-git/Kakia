@@ -152,11 +152,15 @@ function Invoke-KakiaDisable {
     try {
         if ($PSCmdlet.ShouldProcess("System", "Apply disable actions")) {
 
-            auditpol /set /subcategory:"Filtering Platform Connection" /success:disable /failure:enable
+            auditpol /set /subcategory:"Filtering Platform Connection" /success:disable /failure:enable > $null
 
             Get-AppxPackage -AllUsers Microsoft.549981C3F5F10 | Remove-AppPackage
 
             ipconfig /flushdns | Out-Null
+
+            fsutil behavior set disablelastaccess 3 > $null
+
+            Clear-RecycleBin -Force
 
             Stop-Service -Name DiagTrack -Force
             Set-Service -Name DiagTrack -StartupType Disabled
@@ -164,15 +168,14 @@ function Invoke-KakiaDisable {
             Stop-Service -Name dmwappushservice -Force
             Set-Service -Name dmwappushservice -StartupType Disabled
 
+            Get-Service CDPUserSvc* -ErrorAction SilentlyContinue | Stop-Service -Force
+
             "" | Out-File "C:\ProgramData\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl" -ErrorAction SilentlyContinue
 
             Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'NtfsDisableLastAccessUpdate' -Value 1 -Force
-            fsutil behavior set disablelastaccess 3
 
             Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\' -Name 'EnablePrefetcher' -Value 0 -Force
             Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\' -Name 'EnableSuperfetch' -Value 0 -Force
-
-            Clear-RecycleBin -Force
 
             Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\' -Name 'DisableLocalPage' -Value 1 -Force
 
@@ -188,8 +191,6 @@ function Invoke-KakiaDisable {
                     Write-Verbose "Failed log: $($_)"
                 }
             }
-
-            Get-Service CDPUserSvc* -ErrorAction SilentlyContinue | Stop-Service -Force
 
             if ($Force) {
                 fsutil usn deletejournal /d c:

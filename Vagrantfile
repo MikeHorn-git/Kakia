@@ -38,8 +38,8 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision 'shell', inline: <<-POWERSHELL
     powershell.exe -ExecutionPolicy Bypass -Command "Install-PackageProvider NuGet -Force"
-    powershell.exe -ExecutionPolicy Bypass -Command "Install-PackageProvider NuGet -Force"
     powershell.exe -ExecutionPolicy Bypass -Command "Install-Module PSScriptAnalyzer -Force -AllowClobber -Scope CurrentUser"
     powershell.exe -ExecutionPolicy Bypass -Command "Get-Module -ListAvailable PSScriptAnalyzer"
+    powershell.exe -ExecutionPolicy Bypass -Command "Invoke-WebRequest https://raw.githubusercontent.com/MikeHorn-git/Kakia/main/Kakia.psm1 -Outfile Kakia.psm1"
   POWERSHELL
 end

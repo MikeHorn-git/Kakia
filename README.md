@@ -79,5 +79,4 @@ Invoke-KakiaDisable               Function  Kakia                     Disables s
 ## Credits
 
 - [Awesome anti-forensic](https://github.com/shadawck/awesome-anti-forensic)
-- [Background](https://wallpapercave.com/wp/wp3438728.jpg)
 - [Sans Forensics](https://www.sans.org/posters/windows-forensic-analysis/)

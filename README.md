@@ -7,7 +7,6 @@
 
 ## Table of content
 
-- [Description](https://github.com/MikeHorn-git/Kakia#description)
 - [Installation](https://github.com/MikeHorn-git/Kakia#installation)
 - [Usage](https://github.com/MikeHorn-git/Kakia#usage)
 - [Features](https://github.com/MikeHorn-git/Kakia#features)

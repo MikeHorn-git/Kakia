@@ -2,20 +2,25 @@
 
 {
   # https://devenv.sh/packages/
-  packages = with pkgs; [ git powershell rubyPackages_3_4.rubocop ];
+  packages = with pkgs; [
+    git
+    powershell
+    rubocop
+  ];
 
   enterTest = ''
     pwsh -v
+    rubocop -v
   '';
 
   # https://devenv.sh/git-hooks/
   git-hooks.hooks = {
     mdformat.enable = true;
-    nixfmt-classic.enable = true;
+    nixfmt.enable = true;
     rubocop = {
       enable = true;
       name = "rubocop";
-      entry = "${pkgs.rubyPackages_3_4.rubocop}/bin/rubocop -A";
+      entry = "${pkgs.rubocop}/bin/rubocop -A";
       files = "(Vagrantfile$)";
     };
     trim-trailing-whitespace.enable = true;

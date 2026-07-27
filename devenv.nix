@@ -4,12 +4,10 @@
   # https://devenv.sh/packages/
   packages = with pkgs; [
     git
-    powershell
     rubocop
   ];
 
   enterTest = ''
-    pwsh -v
     rubocop -v
   '';
 
